@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+  background-color: black;
+}
+
+main {
+  height: 100vh;
+  display: grid;
+  font-size: 500%;
+  place-items: center;
+  color: white;
+}
