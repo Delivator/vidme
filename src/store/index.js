@@ -52,3 +52,18 @@ export default new Vuex.Store({
   },
   modules: {}
 });
+
+if (skyid.seed) {
+  skyid.getFile("profile", response => {
+    if (response == "") {
+      // file not found
+      console.error(
+        "Profile not found, please check your connection and retry"
+      );
+    } else {
+      // success
+      const respObs = JSON.parse(response);
+      console.log("Profile data:", respObs);
+    }
+  });
+}
