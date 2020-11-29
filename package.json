@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "skyid": "0.0.4",
     "skynet-js": "^2.9.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
