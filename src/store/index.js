@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import SkyID from "skyid";
-// import { SkynetClient } from "skynet-js";
 
 Vue.use(Vuex);
 
@@ -17,7 +16,6 @@ if (
 }
 
 const skyidOptions = { devMode };
-// const client = new SkynetClient(devMode ? "https://siasky.net" : "");
 
 function skyidCallback(message) {
   switch (message) {
@@ -60,16 +58,9 @@ const store = new Vuex.Store({
     getUserData() {
       return new Promise((resolve, reject) => {
         if (!skyid.userId) return reject("No user id found.");
-        skyid.getJSON("profile", function(a) {
-          console.log(a);
-          resolve(a);
+        skyid.getProfile(data => {
+          resolve({ userId: skyid.userId, ...JSON.parse(data) });
         });
-        // client.db
-        //   .getJSON(skyid.userId, "profile")
-        //   .then(({ data }) => {
-        //     resolve({ userId: skyid.userId, ...JSON.parse(data) });
-        //   })
-        //   .catch(reject);
       });
     }
   },
