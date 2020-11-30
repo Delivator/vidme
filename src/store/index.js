@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import SkyID from "skyid";
+import { SkynetClient } from "skynet-js";
 
 Vue.use(Vuex);
 
@@ -16,18 +17,21 @@ if (
 }
 
 const skyidOptions = { devMode };
+const client = new SkynetClient(devMode ? "https://siasky.net" : "");
 
 function skyidCallback(message) {
   switch (message) {
     case "login_fail":
-      console.log("Login failed");
+      console.error("Login failed");
       break;
     case "login_success":
-      console.log("Login succeed!");
-      console.log(skyid.userId);
+      store
+        .dispatch("getUserData")
+        .then(data => store.commit("setLoggedInUser", data))
+        .catch(console.error);
       break;
     case "destroy":
-      console.log("Logout succeed!");
+      store.commit("setLoggedInUser", null);
       break;
     default:
       console.log(message);
@@ -37,33 +41,35 @@ function skyidCallback(message) {
 
 const skyid = new SkyID("skyidtestapp", skyidCallback, skyidOptions);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     loggedInUser: null
   },
-  mutations: {},
+  mutations: {
+    setLoggedInUser(state, newUser) {
+      state.loggedInUser = newUser;
+    }
+  },
   actions: {
     login() {
       skyid.sessionStart();
     },
     logout() {
       skyid.sessionDestroy();
+    },
+    getUserData() {
+      return new Promise((resolve, reject) => {
+        if (!skyid.userId) return reject("No user id found.");
+        client.db
+          .getJSON(skyid.userId, "profile")
+          .then(({ data }) => {
+            resolve({ userId: skyid.userId, ...JSON.parse(data) });
+          })
+          .catch(reject);
+      });
     }
   },
   modules: {}
 });
 
-if (skyid.seed) {
-  skyid.getFile("profile", response => {
-    if (response == "") {
-      // file not found
-      console.error(
-        "Profile not found, please check your connection and retry"
-      );
-    } else {
-      // success
-      const respObs = JSON.parse(response);
-      console.log("Profile data:", respObs);
-    }
-  });
-}
+export default store;
