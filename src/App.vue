@@ -1,26 +1,11 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
+    <v-app-bar app color="red darken-3" dark>
+      <router-link to="/" class="white--text text-decoration-none">
+        <h4 class="logo-text text-h4 font-weight-medium">
+          <span class="text-decoration-underline">vidme</span>.
+        </h4>
+      </router-link>
       <v-spacer></v-spacer>
 
       <v-btn v-if="!loggedInUser" @click="login" outlined>
@@ -51,6 +36,12 @@
     </v-main>
   </v-app>
 </template>
+
+<style scoped>
+.logo-text {
+  font-family: "Inconsolata", monospace !important;
+}
+</style>
 
 <script>
 export default {
