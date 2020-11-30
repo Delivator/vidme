@@ -1,5 +1,7 @@
 # vidme
 
+![Deploy to Skynet CI](https://github.com/Delivator/vidme/workflows/Deploy%20to%20Skynet%20CI/badge.svg)
+
 ## Project setup
 ```
 npm install
