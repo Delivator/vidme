@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title} - vidme.</title>
+    <meta property="og:title" content="${title} - vidme.">
+    <meta property="og:site_name" content="vidme.">
+    <meta property="og:description" content="vidme. share videos, not your data.">
+    <meta property="og:type" content=video.other>
+    <meta property="og:image" content="thumbnail.jpg">
+    <style>
+      body {
+        margin: 0 16px;;
+        font-family: Sans-serif;
+        background: #121212;
+        color: #ffffff;
+      }
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      h1 {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 80vw;
+      }
+      .max-h {
+        max-height: 80vh;
+      }
+      a {
+        color: deepskyblue;
+      }
+      a:visited {
+        color: blueviolet;
+      }
+      .download {
+        float: right;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.2/plyr.css" />
+  </head>
+  <body>
+    <main>
+      <div class="centered">
+        <h1>${title}</h1>
+        <div class="container">
+          <video id="player" class="max-h" controls loop data-poster="thumbnail.jpg">
+            <source src="${fileName}" type="${fileType}" />
+          </video>
+        </div>
+        <p>
+          Uploaded with <a href="https://vidme.hns.siasky.net/">vidme</a>.
+          Powered by <a href="https://skynetlabs.com/">Skynet</a>.
+          <a class="download" href="${fileName}" download>Download Video</a>
+        </p>
+      </div>
+    </main>
+    <script src="https://cdn.plyr.io/3.7.2/plyr.js"></script>
+    <script>
+      const videoElement = document.querySelector("#player");
+      const player = new Plyr("#player", {
+        disableContextMenu: false,
+        tooltips: {
+          controls: true,
+          seek: true
+        },
+        speed: {
+          selected: 1,
+          options: [0.5, 0.75, 1, 1.25, 1.5, 2]
+        }
+      });
+      player.on("enterfullscreen", () => {
+        videoElement.classList.remove("max-h");
+      });
+      player.on("exitfullscreen", () => {
+        videoElement.classList.add("max-h");
+      });
+    </script>
+  </body>
+</html>

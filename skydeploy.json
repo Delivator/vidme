@@ -1,0 +1,12 @@
+{
+  "prod": {
+    "dir": "dist",
+    "datakey": "vidme-prod",
+    "tryFiles": ["/index.html"]
+  },
+  "dev": {
+    "dir": "dist",
+    "datakey": "vidme-dev",
+    "tryFiles": ["/index.html"]
+  }
+}
