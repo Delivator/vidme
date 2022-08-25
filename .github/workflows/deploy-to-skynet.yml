@@ -22,7 +22,7 @@ jobs:
         with:
           upload-dir: dist
           try-files: /index.html
-          portal-url: https://skynetpro.net
+          portal-url: https://skynetfree.net
           github-token: ${{ secrets.GITHUB_TOKEN }}
           skynet-api-key: ${{ secrets.SKYNET_API_KEY }}
           registry-seed: ${{ secrets.SKYNET_REGISTRY_SEED || '' }}
