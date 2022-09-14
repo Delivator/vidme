@@ -147,8 +147,20 @@
       </v-col>
       <v-col align="center" cols="12" v-if="publishedLink">
         <h1>Share your video:</h1>
-        <h2>
+        <h2 class="overflow-ellipsis">
           <a :href="publishedLink" target="_blank">{{ publishedLink }}</a>
+          <v-tooltip v-model="showCopiedTooltip" bottom>
+            <template v-slot:activator="{ attrs }">
+              <v-icon
+                @click="copyText(publishedLink)"
+                class="ml-2"
+                v-bind="attrs"
+              >
+                content_copy
+              </v-icon>
+            </template>
+            <span>Copied</span>
+          </v-tooltip>
         </h2>
         <p class="subtext text-caption mt-4">
           Anyone with the link can access the video. Content can not be removed,
@@ -197,6 +209,11 @@
 .dark {
   background: #121212;
 }
+
+.overflow-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 </style>
 
 <script>
@@ -229,6 +246,7 @@ export default {
       trimMode: false,
       trimLoading: false,
       fileExt: "",
+      showCopiedTooltip: false,
 
       max: 0,
       range: [0, 0],
@@ -410,6 +428,19 @@ export default {
     onRangeEndChange(value) {
       this.$set(this.range, 1, value);
       this.setCurrentTime(value);
+    },
+
+    copyText(text) {
+      const input = document.createElement("input");
+      input.value = text;
+      input.select();
+      input.setSelectionRange(0, text.length);
+      navigator.clipboard.writeText(input.value);
+      this.showCopiedTooltip = true;
+      input.remove();
+      setTimeout(() => {
+        this.showCopiedTooltip = false;
+      }, 1000);
     },
   },
 };
