@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "yarn build && skydeploy prod"
+    "deploy": "yarn build && skydeploy dev"
   },
   "dependencies": {
     "@ffmpeg/core": "^0.11.0",

@@ -41,7 +41,6 @@
         <v-range-slider
           v-model="range"
           :max="max"
-          :min="min"
           step="0.1"
           hide-details
           class="align-center"
@@ -50,6 +49,8 @@
           <template v-slot:prepend>
             <v-text-field
               :value="range[0]"
+              min="0"
+              :max="max - 0.1"
               step="0.1"
               class="mt-0 pt-0"
               hide-details
@@ -57,13 +58,22 @@
               type="number"
               style="width: 100px"
               @change="onRangeStartChange"
-              append-outer-icon="schedule"
-              @click:append-outer="setTrimStart"
-            ></v-text-field>
+            >
+              <template v-slot:prepend>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <v-icon v-on="on" @click="setTrimStart">schedule</v-icon>
+                  </template>
+                  Set Start
+                </v-tooltip>
+              </template>
+            </v-text-field>
           </template>
           <template v-slot:append>
             <v-text-field
               :value="range[1]"
+              min="0.1"
+              :max="max"
               step="0.1"
               class="mt-0 pt-0"
               hide-details
@@ -71,9 +81,16 @@
               type="number"
               style="width: 100px"
               @change="onRangeEndChange"
-              append-outer-icon="schedule"
-              @click:append-outer="setTrimEnd"
-            ></v-text-field>
+            >
+              <template v-slot:append-outer>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <v-icon v-on="on" @click="setTrimEnd">schedule</v-icon>
+                  </template>
+                  Set End
+                </v-tooltip>
+              </template>
+            </v-text-field>
           </template>
         </v-range-slider>
       </v-col>
@@ -214,7 +231,6 @@ export default {
       fileExt: "",
 
       max: 0,
-      min: 0,
       range: [0, 0],
       lastRange: [0, 0],
     };
@@ -325,7 +341,6 @@ export default {
 
     setRangeLimits() {
       const videoElement = document.querySelector(".preview-video");
-      this.min = 0;
       this.max = videoElement.duration;
       this.range = [0, videoElement.duration];
     },
